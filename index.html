@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leif Holmquist | EO & Geospatial Data Scientist</title>
+  <meta name="description" content="Portfolio of Leif Holmquist, Earth observation and geospatial data scientist. A decade of remote sensing, GIS, and machine learning work across four continents.">
+  <link rel="icon" type="image/svg+xml" href="assets/logo-lime.svg">
+  <meta property="og:title" content="Leif Holmquist | EO & Geospatial Data Scientist">
+  <meta property="og:description" content="A decade of Earth observation, GIS, and machine learning work across four continents. Explore the projects on an interactive map.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://geolime.github.io/">
+  <meta property="og:image" content="https://geolime.github.io/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css" rel="stylesheet">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#17092e"/><stop offset="1" stop-color="#30104f"/>
+      </linearGradient>
+      <linearGradient id="sunglobe" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#FAD009"/>
+        <stop offset="0.5" stop-color="#FA8057"/>
+        <stop offset="1" stop-color="#ED2EA5"/>
+      </linearGradient>
+      <radialGradient id="sunglow" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0" stop-color="#ED2EA5" stop-opacity="0.5"/>
+        <stop offset="1" stop-color="#FAD009" stop-opacity="0"/>
+      </radialGradient>
+      <clipPath id="globeclip"><circle cx="60" cy="62" r="26"/></clipPath>
+    </defs>
+  <symbol id="em-sat" viewBox="0 0 62 44">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="24" y="6" width="14" height="10"/>
+      <rect x="6" y="8" width="14" height="6"/><line x1="20" y1="11" x2="24" y2="11"/>
+      <rect x="42" y="8" width="14" height="6"/><line x1="38" y1="11" x2="42" y2="11"/>
+      <path d="M28,22 a5,5 0 0 0 6,0"/>
+      <path d="M26,28 a9,9 0 0 0 10,0"/>
+    </g>
+  </symbol>
+  <symbol id="em-sat2" viewBox="0 0 62 44">
+    <g transform="translate(31,22) rotate(-45) scale(0.8) translate(-31,-22)">
+      <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="24" y="6" width="14" height="10"/>
+        <rect x="6" y="8" width="14" height="6"/><line x1="20" y1="11" x2="24" y2="11"/>
+        <rect x="42" y="8" width="14" height="6"/><line x1="38" y1="11" x2="42" y2="11"/>
+        <path d="M28,22 a5,5 0 0 0 6,0"/>
+        <path d="M26,28 a9,9 0 0 0 10,0"/>
+      </g>
+    </g>
+  </symbol>
+  <symbol id="em-gis" viewBox="0 0 62 44">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+      <path d="M31,2 l22,10 l-22,10 l-22,-10 z"/>
+      <path d="M9,20 l22,10 l22,-10"/>
+      <path d="M9,28 l22,10 l22,-10"/>
+      <circle cx="31" cy="11" r="3" fill="currentColor" stroke="none"/>
+      <path d="M31,11 l0,6" stroke-width="1.6"/>
+    </g>
+  </symbol>
+  <symbol id="em-tree" viewBox="0 0 62 48">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <circle cx="31" cy="6" r="4"/>
+      <line x1="28" y1="9" x2="17" y2="20"/><line x1="34" y1="9" x2="45" y2="20"/>
+      <circle cx="15" cy="23" r="4"/><circle cx="47" cy="23" r="4"/>
+      <line x1="12" y1="26" x2="7" y2="36"/><line x1="18" y1="26" x2="23" y2="36"/>
+      <line x1="44" y1="26" x2="39" y2="36"/><line x1="50" y1="26" x2="55" y2="36"/>
+      <rect x="3" y="36" width="8" height="8"/><rect x="19" y="36" width="8" height="8"/>
+      <rect x="35" y="36" width="8" height="8"/><rect x="51" y="36" width="8" height="8"/>
+    </g>
+  </symbol>
+  <symbol id="em-term" viewBox="0 0 62 48">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="4" y="6" width="54" height="36" rx="4"/>
+      <path d="M12,18 l9,6 l-9,6"/>
+      <line x1="27" y1="32" x2="42" y2="32"/>
+    </g>
+  </symbol>
+  <symbol id="em-peaks" viewBox="0 0 62 52">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+      <path d="M6,48 L24,14 L34,30 L44,10 L58,48 Z"/>
+      <path d="M20,22 l4,4 l4,-4" stroke-width="1.3"/>
+      <path d="M40,18 l4,4 l4,-4" stroke-width="1.3"/>
+    </g>
+  </symbol>
+  <symbol id="em-ammonite" viewBox="0 0 62 52">
+    <g transform="translate(-6.8,-5.7) scale(1.22)" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+      <path d="M31,26 a2,2 0 0 1 4,0 a4,4 0 0 1 -8,0 a6,6 0 0 1 12,0 a9,9 0 0 1 -18,0 a12,12 0 0 1 24,0 a15,15 0 0 1 -15,15"/>
+      <path d="M43,26 l4,0 M40,35 l3,3 M31,39 l0,4" stroke-width="1.1"/>
+    </g>
+  </symbol>
+  <symbol id="em-ammonite2" viewBox="0 0 62 52">
+    <g transform="translate(-6.8,-5.7) scale(1.22)" fill="none" stroke="currentColor" stroke-linecap="round">
+      <path stroke-width="1.8" d="M31,26 a2,2 0 0 1 4,0 a4,4 0 0 1 -8,0 a6,6 0 0 1 12,0 a9,9 0 0 1 -18,0 a12,12 0 0 1 24,0 a15,15 0 0 1 -15,15"/>
+      <path stroke-width="0.95" d="M35.5,26.0 L39.5,26.0 M40.5,26.0 L45.5,26.0 M34.6,29.5 L37.6,32.4 M31.7,31.4 L32.2,35.8 M28.2,31.1 L26.0,35.1 M25.5,28.9 L21.3,31.2 M24.4,25.7 L19.5,25.5 M25.0,22.3 L20.8,19.7 M29.4,23.2 L27.7,20.5 M27.2,19.5 L24.7,15.3 M30.7,22.5 L30.5,19.1 M30.4,18.0 L30.1,13.2 M32.4,22.5 L33.6,19.2 M34.0,18.2 L35.8,13.6 M33.9,23.2 L36.5,20.6 M37.3,19.8 L40.8,16.4 M35.0,24.4 L38.6,23.1 M39.6,22.7 L44.1,20.9"/>
+    </g>
+  </symbol>
+  <symbol id="em-trowel" viewBox="0 0 62 52">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+      <g transform="rotate(45 31 26)">
+        <rect x="27" y="0" width="8" height="10" rx="3"/>
+        <line x1="31" y1="10" x2="31" y2="15"/>
+        <path d="M21,19 Q31,11 41,19 L31,42 Z"/>
+      </g>
+    </g>
+  </symbol>
+  <symbol id="em-atom" viewBox="0 0 62 52">
+    <g fill="none" stroke="currentColor" stroke-width="1.8">
+      <ellipse cx="31" cy="26" rx="22" ry="8"/>
+      <ellipse cx="31" cy="26" rx="22" ry="8" transform="rotate(60 31 26)"/>
+      <ellipse cx="31" cy="26" rx="22" ry="8" transform="rotate(-60 31 26)"/>
+      <circle cx="31" cy="26" r="3.2" fill="currentColor" stroke="none"/>
+    </g>
+  </symbol>
+  <symbol id="em-drop" viewBox="0 0 62 52">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M31,3 C38,15 45,23 45,33 a14,14 0 1 1 -28,0 C17,23 24,15 31,3 Z"/>
+      <path d="M24,36 q3.5,-4 7,0 q3.5,4 7,0" stroke-width="1.6"/>
+    </g>
+  </symbol>
+  <symbol id="em-pine" viewBox="0 0 62 56">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M31,4 L42,18 L36,18 L46,32 L38,32 L48,44 L14,44 L24,32 L16,32 L26,18 L20,18 Z"/>
+      <line x1="28" y1="44" x2="28" y2="52"/>
+      <line x1="34" y1="44" x2="34" y2="52"/>
+    </g>
+  </symbol>
+  <symbol id="em-skyline" viewBox="0 0 62 52">
+    <g fill="none" stroke="currentColor" stroke-linejoin="round">
+      <rect x="6" y="28" width="10" height="22" stroke-width="1.8"/>
+      <rect x="18" y="14" width="12" height="36" stroke-width="1.8"/>
+      <rect x="32" y="24" width="9" height="26" stroke-width="1.8"/>
+      <rect x="43" y="8" width="13" height="42" stroke-width="1.8"/>
+      <line x1="49" y1="8" x2="49" y2="2" stroke-width="1.6"/>
+      <g stroke-width="1">
+        <line x1="21" y1="20" x2="27" y2="20"/><line x1="21" y1="27" x2="27" y2="27"/>
+        <line x1="21" y1="34" x2="27" y2="34"/><line x1="21" y1="41" x2="27" y2="41"/>
+        <line x1="46" y1="15" x2="53" y2="15"/><line x1="46" y1="22" x2="53" y2="22"/>
+        <line x1="46" y1="29" x2="53" y2="29"/><line x1="46" y1="36" x2="53" y2="36"/>
+        <line x1="9" y1="34" x2="13" y2="34"/><line x1="9" y1="41" x2="13" y2="41"/>
+        <line x1="35" y1="30" x2="38" y2="30"/><line x1="35" y1="37" x2="38" y2="37"/>
+      </g>
+    </g>
+  </symbol>
+  <symbol id="em-routing" viewBox="0 0 62 52">
+    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <g stroke-width="2">
+        <path d="M31,26 L31,12 L14,12"/>
+        <path d="M31,26 L48,26 L48,10"/>
+        <path d="M31,26 L31,40 L16,40"/>
+        <path d="M31,26 L44,26 L44,44"/>
+      </g>
+      <g stroke-width="1.2">
+        <line x1="14" y1="12" x2="8" y2="6"/><line x1="14" y1="12" x2="8" y2="18"/>
+        <line x1="48" y1="10" x2="54" y2="6"/><line x1="48" y1="10" x2="42" y2="4"/>
+        <line x1="16" y1="40" x2="10" y2="34"/><line x1="16" y1="40" x2="10" y2="46"/>
+        <line x1="44" y1="44" x2="50" y2="50"/><line x1="44" y1="44" x2="38" y2="50"/>
+      </g>
+      <rect x="11" y="9" width="6" height="6" transform="rotate(45 14 12)"/>
+      <rect x="45" y="7" width="6" height="6" transform="rotate(45 48 10)"/>
+      <rect x="13" y="37" width="6" height="6" transform="rotate(45 16 40)"/>
+      <rect x="41" y="41" width="6" height="6" transform="rotate(45 44 44)"/>
+      <circle cx="31" cy="26" r="4" fill="currentColor" stroke="none"/>
+      <circle cx="8" cy="6" r="1.6" fill="currentColor" stroke="none"/><circle cx="8" cy="18" r="1.6" fill="currentColor" stroke="none"/>
+      <circle cx="54" cy="6" r="1.6" fill="currentColor" stroke="none"/><circle cx="42" cy="4" r="1.6" fill="currentColor" stroke="none"/>
+      <circle cx="10" cy="34" r="1.6" fill="currentColor" stroke="none"/><circle cx="10" cy="46" r="1.6" fill="currentColor" stroke="none"/>
+      <circle cx="50" cy="50" r="1.6" fill="currentColor" stroke="none"/><circle cx="38" cy="50" r="1.6" fill="currentColor" stroke="none"/>
+    </g>
+  </symbol>
+
+  <symbol id="cardback" viewBox="0 0 120 176" preserveAspectRatio="xMidYMid slice">
+    <rect width="120" height="176" fill="url(#sky)"/>
+    <circle cx="60" cy="64" r="46" fill="url(#sunglow)"/>
+    <!-- SUNSET GLOBE (active) -->
+    <circle cx="60" cy="62" r="26" fill="url(#sunglobe)"/>
+    <g clip-path="url(#globeclip)" fill="none" stroke="#30104f" stroke-width="1.1" opacity="0.85">
+      <ellipse cx="60" cy="62" rx="26" ry="9"/><ellipse cx="60" cy="62" rx="26" ry="19"/>
+      <ellipse cx="60" cy="62" rx="9" ry="26"/><ellipse cx="60" cy="62" rx="19" ry="26"/>
+    </g>
+    <circle cx="60" cy="62" r="26" fill="none" stroke="#FAD009" stroke-width="1"/>
+    <!-- GREEN WIREFRAME GLOBE (alternative): comment the SUNSET GLOBE block
+         above and uncomment this block to switch.-->
+    <!-- <circle cx="60" cy="62" r="26" fill="#0d0f1a" fill-opacity="0.55" stroke="#21ff25" stroke-width="1.6"/>
+    <g clip-path="url(#globeclip)" fill="none" stroke="#21ff25" stroke-width="0.9" opacity="0.8">
+      <ellipse cx="60" cy="62" rx="26" ry="9"/><ellipse cx="60" cy="62" rx="26" ry="19"/>
+      <ellipse cx="60" cy="62" rx="9" ry="26"/><ellipse cx="60" cy="62" rx="19" ry="26"/>
+    </g>-->
+    
+    <line x1="0" y1="100" x2="120" y2="100" stroke="#fffc02" stroke-width="1.2"/>
+    <g stroke="#00ffec" stroke-width="0.8" opacity="0.85">
+      <line x1="60" y1="100" x2="-70" y2="182"/><line x1="60" y1="100" x2="-25" y2="182"/>
+      <line x1="60" y1="100" x2="18" y2="182"/><line x1="60" y1="100" x2="60" y2="182"/>
+      <line x1="60" y1="100" x2="102" y2="182"/><line x1="60" y1="100" x2="145" y2="182"/>
+      <line x1="60" y1="100" x2="190" y2="182"/>
+    </g>
+    <g stroke="#ff00ce" stroke-width="1">
+      <line x1="0" y1="106" x2="120" y2="106"/><line x1="0" y1="114" x2="120" y2="114"/>
+      <line x1="0" y1="125" x2="120" y2="125"/><line x1="0" y1="139" x2="120" y2="139"/>
+      <line x1="0" y1="156" x2="120" y2="156"/><line x1="0" y1="175" x2="120" y2="175"/>
+    </g>
+  </symbol>
+</svg>
+
+  <header class="site-header">
+    <a class="brand" href="#top"><img src="assets/logo-lime.svg" class="brand-logo" alt="">LEIF&nbsp;HOLMQUIST</a>
+    <nav class="site-nav">
+      <a href="#map-section">Map</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#education">Education</a>
+      <a href="#skills">Skills</a>
+      <a href="#leadership">Leadership</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="header-links">
+      <a href="https://github.com/geolime" title="GitHub">GitHub</a>
+      <a href="https://linkedin.com/in/leif-holmquist" title="LinkedIn">LinkedIn</a>
+      <!-- <a class="cv-btn" href="assets/cv.pdf">CV&nbsp;&darr;</a> -->
+    </div>
+  </header>
+
+  <main id="top">
+
+    <section id="map-section" class="hero">
+      <div class="hero-intro">
+        <div class="hero-text">
+          <h1>LEIF HOLMQUIST</h1>
+          <p class="tagline">EO &amp; Geospatial Data Scientist</p>
+          <p class="hero-line">I make Earth observation data answer practical questions:
+            where drought monitoring breaks under cloud cover, which coasts would have a 
+            higher tsunami risk, how a wildfire scarred the Chernobyl Exclusion Zone,
+            where a national fiber network should grow next. Ten years of remote sensing,
+            GIS, and machine learning, from UN field programmes to hyperspectral pipelines.</p>
+          <p class="hero-hint mono">Explore the map: each footprint is a project.</p>
+        </div>
+        <div class="hero-jack" aria-hidden="true">
+          <div class="jack-stage">
+            <div class="jack-card"><div class="jack-inner">
+              <div class="jack-face jack-front suit-spade">
+                <div class="corner">J<br>&#9824;</div>
+                <div class="emblems"><svg><use href="#em-sat2"/></svg><div class="divider"></div><svg class="mirror"><use href="#em-gis"/></svg></div>
+                <div class="corner bottom">J<br>&#9824;</div>
+              </div>
+              <div class="jack-face jack-back"><svg><use href="#cardback"/></svg></div>
+            </div></div>
+            <div class="jack-card"><div class="jack-inner">
+              <div class="jack-face jack-front suit-heart">
+                <div class="corner">J<br>&#9829;</div>
+                <div class="emblems"><svg><use href="#em-tree"/></svg><div class="divider"></div><svg class="mirror"><use href="#em-term"/></svg></div>
+                <div class="corner bottom">J<br>&#9829;</div>
+              </div>
+              <div class="jack-face jack-back"><svg><use href="#cardback"/></svg></div>
+            </div></div>
+            <div class="jack-card"><div class="jack-inner">
+              <div class="jack-face jack-front suit-club">
+                <div class="corner">J<br>&#9827;</div>
+                <div class="emblems"><svg><use href="#em-ammonite2"/></svg><div class="divider"></div><svg class="mirror"><use href="#em-trowel"/></svg></div>
+                <div class="corner bottom">J<br>&#9827;</div>
+              </div>
+              <div class="jack-face jack-back"><svg><use href="#cardback"/></svg></div>
+            </div></div>
+            <div class="jack-card"><div class="jack-inner">
+              <div class="jack-face jack-front suit-diamond">
+                <div class="corner">J<br>&#9830;</div>
+                <div class="emblems"><svg><use href="#em-peaks"/></svg><div class="divider"></div><svg class="mirror"><use href="#em-skyline"/></svg></div>
+                <div class="corner bottom">J<br>&#9830;</div>
+              </div>
+              <div class="jack-face jack-back"><svg><use href="#cardback"/></svg></div>
+            </div></div>
+          </div>
+          <!-- <p class="jack-caption mono">// JACK OF ALL TRADES</p> -->
+        </div>
+      </div>
+      <div id="map" aria-label="Interactive world map of project locations">
+        <div class="map-pending mono">MAP INITIALIZING&hellip;</div>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <h2 class="section-title mono">// PROJECTS</h2>
+      <div id="project-grid" class="project-grid"></div>
+    </section>
+
+    <section id="experience" class="section">
+      <h2 class="section-title mono">// EXPERIENCE</h2>
+      <p class="section-sub mono">Condensed. Full role details available upon request.</p>
+      <div class="timeline">
+
+        <div class="t-entry">
+          <div class="t-when mono">2025-09 &mdash; present</div>
+          <div class="t-body">
+            <h3>Earth Observation Specialist <span class="t-org">&middot; ForestSync</span></h3>
+            <div class="t-place mono">Remote</div>
+            <p>Sentinel-2 and biomass raster processing in Python for forestry monitoring: masking, normalization, and AOI-based time-series.</p>
+          </div>
+        </div>
+
+        <div class="t-entry">
+          <div class="t-when mono">2023-10 &mdash; 2024-10</div>
+          <div class="t-body">
+            <h3>Geospatial Data Scientist <span class="t-org">&middot; TDC Net</span></h3>
+            <div class="t-place mono">Denmark &middot; <a href="#project-tdc-fiber-denmark">see project &darr;</a></div>
+            <p>Street network routing, constrained clustering, and capacity forecasting for national fiber rollout; layers and dashboards used directly by planners.</p>
+          </div>
+        </div>
+
+        <div class="t-entry">
+          <div class="t-when mono">2023-01 &mdash; 2023-06</div>
+          <div class="t-body">
+            <h3>Geospatial Data Engineer <span class="t-org">&middot; Ecogain</span></h3>
+            <div class="t-place mono">Sweden</div>
+            <p>Automated geospatial ETL from multiple sources into ArcGIS, cutting prep from a day to minutes, plus sensitivity analysis tooling for a land-use model.</p>
+          </div>
+        </div>
+
+        <div class="t-entry">
+          <div class="t-when mono">2021-10 &mdash; 2022-12</div>
+          <div class="t-body">
+            <h3>GIS &amp; Data Analyst Expert <span class="t-org">&middot; UN Development Programme</span></h3>
+            <div class="t-place mono">Remote &middot; <a href="#project-undp-afghanistan">see project &darr;</a></div>
+            <p>Satellite change detection and regional analytical mapping for humanitarian risk, agricultural development, and food-security monitoring.</p>
+          </div>
+        </div>
+
+        <div class="t-entry compact">
+          <div class="t-when mono">2019-06 &mdash; 2020-07</div>
+          <div class="t-body">
+            <h3>Geospatial Data Engineer &amp; Analyst <span class="t-org">&middot; Malm&ouml; University, Urban Studies</span></h3>
+            <div class="t-place mono">Sweden &middot; <a href="#project-urban-accessibility">see project &darr;</a></div>
+            <p>Accessibility research on ~6 billion Swedish registry records: national scale distance computation, maps, and a researcher focused analysis tool.</p>
+          </div>
+        </div>
+
+        <div class="t-entry compact">
+          <div class="t-when mono">2018-11 &mdash; 2019-02</div>
+          <div class="t-body">
+            <h3>GIS Technical Writer <span class="t-org">&middot; Lund University GIS Centre</span></h3>
+            <div class="t-place mono">Sweden</div>
+            <p>Revised and modernized a 100+ page GIS manual and 20+ lab exercises for the ArcGIS Desktop to Pro migration: updated iconography, reworked wording, and new sections; supporting 20+ courses.</p>
+          </div>
+        </div>
+
+        <div class="t-entry compact">
+          <div class="t-when mono">2017-10 &mdash; 2018-01</div>
+          <div class="t-body">
+            <h3>Geospatial Data Engineer <span class="t-org">&middot; City of Malm&ouml;</span></h3>
+            <div class="t-place mono">Sweden</div>
+            <p>PostgreSQL/PostGIS administration and Python + SQL automation for permissions, ingestion, and municipal planning support.</p>
+          </div>
+        </div>
+
+        <div class="t-entry compact">
+          <div class="t-when mono">2017-02 &mdash; 2017-07</div>
+          <div class="t-body">
+            <h3>Master's Thesis Researcher <span class="t-org">&middot; HEIG-VD</span></h3>
+            <div class="t-place mono">Switzerland &middot; <a href="#project-spatial-runner">see project &darr;</a></div>
+            <p>Environment weighted network routing in PostGIS/pgRouting for my master's thesis on runners' response to route greenness.</p>
+          </div>
+        </div>
+
+        <div class="t-entry compact">
+          <div class="t-when mono">2016-06 &mdash; 2016-08</div>
+          <div class="t-body">
+            <h3>Remote Sensing Analyst <span class="t-org">&middot; UN-SPIDER</span></h3>
+            <div class="t-place mono">Germany &middot; <a href="#project-cloud-frequency-central-america">see project &darr;</a></div>
+            <p>MODIS based drought monitoring (VCI/SPI) and cloud frequency analysis across Central America for operational assessment.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <h2 class="section-title mono edu-title" id="education">// EDUCATION &amp; TRAINING</h2>
+      <div class="skills-acc">
+
+        <details class="skill-group" open>
+          <summary class="mono">MSC, GEOINFORMATICS &middot; LUND UNIVERSITY &middot; 2015&ndash;2017</summary>
+          <div class="skill-body">
+            <div class="chip-row"><span class="chip-sub mono">Geomatics Coursework</span>
+              <div class="chips"><span>Satellite Remote Sensing</span><span>Spatial Statistical Analysis &amp; Machine Learning</span><span>GIS I &amp; II</span><span>Geographical Databases</span><span>Programming for Applications in Geomatics</span><span>Algorithms in GIS</span><span>Web GIS</span><span>Physical Geography &amp; Ecosystem Analysis: Master's Degree Project</span></div>
+            </div>
+            <div class="chip-row"><span class="chip-sub mono">Elective Coursework</span>
+              <div class="chips"><span>Hydrology</span><span>Physical Geography: Practical Work</span></div>
+            </div>
+          </div>
+        </details>
+
+        <details class="skill-group">
+          <summary class="mono">BSC, GEOSCIENCE &middot; UNIVERSITY OF IOWA &middot; 2005&ndash;2010</summary>
+          <div class="skill-body">
+            <div class="chip-row"><span class="chip-sub mono">Geology Coursework</span>
+              <div class="chips"><span>Applied Remote Sensing</span><span>Sedimentary Geology &amp; Stratigraphy</span><span>Oceanography</span><span>Principles of Paleontology</span><span>Evolution of Ecosystems</span><span>Intro. to Geology</span><span>Evolution &amp; the History of Life</span><span>Structural Geology</span><span>Mineralogy</span><span>Petrology</span><span>Geologic Field Methods (Montana)</span><span>Geology Summer Field Course (Utah)</span></div>
+            </div>
+            <div class="chip-row"><span class="chip-sub mono">Science &amp; Mathematics Coursework</span>
+              <div class="chips"><span>Physics I &amp; II</span><span>Chemistry I &amp; II</span><span>Biology I</span><span>Engineering Math I, II, III</span></div>
+            </div>
+          </div>
+        </details>
+
+        <details class="skill-group">
+          <summary class="mono">BSC, ANTHROPOLOGY &middot; UNIVERSITY OF IOWA &middot; 2005&ndash;2010</summary>
+          <div class="skill-body">
+            <div class="chip-row"><span class="chip-sub mono">Anthropology &amp; Archaeology Coursework</span>
+              <div class="chips"><span>Urban Anthropology</span><span>Human Impacts</span><span>Culture &amp; Consumption</span><span>Human Origins</span><span>Prehistory</span><span>Language, Culture &amp; Communication</span><span>Culture &amp; Society</span><span>Anthropology of Death</span><span>Archeaology in the Iberian Peninsula</span><span>Lithic Analysis</span><span>Native Peoples in North America</span><span>Issues in Anthropology</span><span>Field Research in Archaeology (excavation, Iowa)</span></div>
+            </div>
+            <div class="chip-row"><span class="chip-sub mono">Humanities Coursework</span>
+              <div class="chips"><span>Civilizations of Asia: Japan</span><span>Civilizations of Asia: China</span><span>Asian Humanities Japan</span><span>Interpretation of Literature</span><span>Rhetoric II</span><span>Language: Japanese Year I &amp; II</span></div>
+            </div>
+          </div>
+        </details>
+
+        <details class="skill-group">
+          <summary class="mono">TRAINING</summary>
+          <div class="skill-body">
+            <div class="chip-row"><span class="chip-sub mono">NASA ARSET</span>
+              <div class="chips"><span>SAR for Disasters &amp; Hydrological Applications</span><span>Forest Mapping &amp; Monitoring with SAR</span><span>SAR for Landcover Applications</span><span>Remote Sensing for Disaster Scenarios</span><span>Fundamentals of ML for Earth Science</span></div>
+            </div>
+            <div class="chip-row"><span class="chip-sub mono">SUSPI</span>
+              <div class="chips"><span>Groundwater modelling with FREEWAT</span></div>
+            </div>
+          </div>
+        </details>
+
+        <details class="skill-group">
+          <summary class="mono">INDEPENDENT COURSEWORK</summary>
+          <div class="skill-body">
+            <div class="chip-row"><span class="chip-sub mono">EO College</span>
+              <div class="chips"><span>Intro. to Hyperspectral Remote Sensing</span></div>
+            </div>
+            <div class="chip-row"><span class="chip-sub mono">Uppsala University</span>
+              <div class="chips"><span>Applied Geoinformatics for Earth Sciences</span><span>Dynamics of Earth Systems: Global Change</span></div>
+            </div>
+            <div class="chip-row"><span class="chip-sub mono">Kaggle</span>
+              <div class="chips"><span>Intro. to Machine Learning</span><span>Intermediate Machine Learning</span><span>Python</span><span>Pandas</span><span>Data Visualization</span><span>Intro. to SQL</span></div>
+            </div>
+          </div>
+        </details>
+
+      </div>
+        <!-- <div class="edu-item">
+          <h3>Drone Operations &amp; Flight Training</h3>
+          <p class="mono t-place">Part-time distance course &middot; enrolled from autumn 2026</p>
+        </div>-->
+      </div>
+    </section>
+
+    <section id="skills" class="section">
+      <h2 class="section-title mono">// SKILLS</h2>
+      <div class="skills-acc">
+
+        <details class="skill-group" open>
+          <summary class="mono">EO DATA &amp; SENSORS</summary>
+          <div class="skill-body">
+            <div class="chip-row"><span class="chip-sub mono">Multispectral</span>
+              <div class="chips"><span>Sentinel-2</span><span>Sentinel-3</span><span>Landsat</span><span>MODIS</span></div></div>
+            <div class="chip-row"><span class="chip-sub mono">SAR</span>
+              <div class="chips"><span>Sentinel-1</span><span>ICEYE</span></div></div>
+            <div class="chip-row"><span class="chip-sub mono">Hyperspectral</span>
+              <div class="chips"><span>Wyvern Dragonette</span><span>Planet Tanager</span></div></div>
+            <div class="chip-row"><span class="chip-sub mono">VHR optical</span>
+              <div class="chips"><span>MAXAR</span><span>30 cm aerial multispectral</span></div></div>
+            <div class="chip-row"><span class="chip-sub mono">Terrain &amp; bathymetry</span>
+              <div class="chips"><span>ASTER DEM</span><span>GEBCO</span></div></div>
+          </div>
+        </details>
+
+        <details class="skill-group">
+          <summary class="mono">REMOTE SENSING ANALYSIS</summary>
+          <div class="skill-body">
+            <div class="chips"><span>Change detection</span><span>Time-series analysis</span><span>Image interpretation</span><span>Spectral indices (NDVI, NBR, NDTI, NDCI)</span><span>Cloud &amp; QA masking</span><span>TOA reflectance conversion</span><span>Drought monitoring (VCI)</span><span>Land cover mapping</span><span>Water quality proxies</span></div>
+          </div>
+        </details>
+
+        <details class="skill-group">
+          <summary class="mono">MACHINE LEARNING</summary>
+          <div class="skill-body">
+            <div class="chip-row"><span class="chip-sub mono">Supervised</span>
+              <div class="chips"><span>Random Forest</span><span>XGBoost</span><span>Spectral Angle Mapping</span><span>Regression forecasting</span></div></div>
+            <div class="chip-row"><span class="chip-sub mono">Unsupervised</span>
+              <div class="chips"><span>KMeans</span><span>DBSCAN</span><span>PCA</span></div></div>
+            <div class="chip-row"><span class="chip-sub mono">Practice</span>
+              <div class="chips"><span>Segmentation workflows</span><span>Train/val/test design</span><span>Class imbalance handling</span><span>Model evaluation</span><span>PyTorch</span></div></div>
+          </div>
+        </details>
+
+        <details class="skill-group">
+          <summary class="mono">PYTHON &amp; GEOSPATIAL LIBRARIES</summary>
+          <div class="skill-body">
+            <div class="chips"><span>GDAL</span><span>Rasterio</span><span>GeoPandas</span><span>Xarray</span><span>Shapely</span><span>PyProj</span><span>NumPy</span><span>pandas</span><span>scikit-learn</span><span>OSMnx</span><span>NetworkX</span><span>STAC tooling</span><span>psycopg2</span></div>
+          </div>
+        </details>
+
+        <details class="skill-group">
+          <summary class="mono">GIS &amp; GEOSPATIAL PROCESSING</summary>
+          <div class="skill-body">
+            <div class="chips"><span>QGIS</span><span>ArcGIS / ArcPy</span><span>Cartographic production</span><span>CRS management</span><span>Raster/vector integration</span><span>Network &amp; routing analysis</span><span>Watershed delineation</span><span>Geospatial validation</span></div>
+          </div>
+        </details>
+
+        <details class="skill-group">
+          <summary class="mono">DATABASES &amp; ENGINEERING</summary>
+          <div class="skill-body">
+            <div class="chips"><span>PostgreSQL / PostGIS</span><span>MySQL</span><span>SQL</span><span>Reproducible pipelines</span><span>Config-driven workflows (YAML)</span><span>ETL &amp; validation routines</span><span>Git</span></div>
+          </div>
+        </details>
+
+        <details class="skill-group">
+          <summary class="mono">COMMUNICATION &amp; DOCUMENTATION</summary>
+          <div class="skill-body">
+            <div class="chips"><span>Map &amp; infographic design</span><span>Technical reporting</span><span>Analytical briefs</span><span>Presentations</span><span>Stakeholder communication</span><span>Method documentation</span><span>Teaching materials</span><span>Reusable templates</span></div>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <section id="leadership" class="section">
+      <h2 class="section-title mono">// LEADERSHIP &amp; VOLUNTEERING</h2>
+      <div class="skills-acc">
+        <div class="skill-group">
+          <div class="skill-body">
+            <div class="chip-row"><span class="chip-sub mono">Leadership</span>
+              <div class="chips chips-structured">
+                <span>Launchpad Participant <em class="chip-org">ESA BIC Denmark, space business development &amp; pitch</em> <em class="chip-date">2021</em></span>
+                <span>Vice Chair &rarr; Chairman <em class="chip-org">Physical Geography &amp; Geology Student Council, Lund University</em> <em class="chip-date">2016&ndash;2017</em></span>
+                <span>Student Parliament <em class="chip-org">LUNA Science Faculty, Lund University</em> <em class="chip-date">2016</em></span>
+                <span>Vice President <em class="chip-org">Japanese Culture Club, University of Iowa</em> <em class="chip-date">2005&ndash;2009</em></span>
+              </div>
+            </div>
+            <div class="chip-row"><span class="chip-sub mono">Volunteering</span>
+              <div class="chips chips-structured">
+                <span>Volunteer <em class="chip-org">Living Planet Symposium (ESA)</em> <em class="chip-date">2025</em></span>
+                <span>Volunteer <em class="chip-org">Lund Fantastic Film Festival</em> <em class="chip-date">2025</em></span>
+                <span>Boy Scouts of America <em class="chip-org">animal habitat &amp; nature park building</em> <em class="chip-date">1995&ndash;2005</em></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="offmap" class="section">
+      <h2 class="section-title mono">// OFF THE MAP</h2>
+      <div class="chips offmap-chips"><span>Board games</span><span>Nature &amp; trail exploration</span><span>Historical sites &amp; ruins</span><span>Museums</span><span>Reading</span><span>Film</span></div>
+    </section>
+
+  </main>
+  <footer id="contact" class="site-footer">
+    <p class="mono">// CONTACT</p>
+    <p>Reach me on <a href="https://linkedin.com/in/leif-holmquist">LinkedIn</a></p>
+    <p class="footer-links">
+      <a class="footer-gh" href="https://github.com/geolime"><img src="assets/logo-lime.svg" class="footer-logo" alt="">GitHub</a>
+    </p>
+    <p class="footer-note mono">Hosted on GitHub Pages.</p>
+  </footer>
+
+  <script src="js/projects.js"></script>
+  <script src="js/main.js"></script>
+  <script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js"></script>
+  <script src="js/map.js"></script>
+</body>
+</html>
