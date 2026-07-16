@@ -438,6 +438,3 @@ a:hover { text-decoration: underline; }
 .footer-logo { width: 16px; height: 16px; }
 
 .hero-hint { flex: 1 1 100%; margin-top: 0; }
-
-.hero-text h1 {display: flex; align-items: center; gap: 0.4em;}
-.hero-logo {width: auto; height: 0.9em; flex-shrink: 0;}
