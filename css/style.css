@@ -415,7 +415,7 @@ a:hover { text-decoration: underline; }
 /* ============ hero layout with jack deck ============ */
 .hero-intro { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
 .hero-text { max-width: 640px; }
-.hero-jack .jack-stage {padding: 1.5rem 0 0.5rem;}
+.hero-jack .jack-stage {padding: 1.5rem 0 2rem;}
 .hero-jack .jack-card {width: 96px; height: 141px;}
 .hero-jack .jack-front {padding: 5px 6px;}
 .hero-jack .corner {flex: 0 0 auto; font-size: 0.7rem; line-height: 1;}
@@ -425,7 +425,7 @@ a:hover { text-decoration: underline; }
 
 @media (max-width: 900px) {
   .hero-jack { width: 100%; margin: 0 auto; }
-  .hero-jack .jack-stage { padding: 1rem 0 0.5rem; }
+  .hero-jack .jack-stage { padding: 1rem 0 1.8rem; }
   .hero-jack .jack-card { width: 78px; height: 115px; }
   .hero-jack .corner { font-size: 0.6rem; }
   .hero-jack .emblems svg { width: 42px; height: 30px; flex: 0 0 30px; }
@@ -436,3 +436,5 @@ a:hover { text-decoration: underline; }
 .brand-logo { width: 22px; height: 22px; }
 .footer-gh { display: inline-flex; align-items: center; gap: 0.35rem; }
 .footer-logo { width: 16px; height: 16px; }
+
+.hero-hint { flex: 1 1 100%; margin-top: 0; }
