@@ -161,8 +161,8 @@ const PROJECTS = [
     fullCaption: "Change Detection - Chernobyl Exclusion Zone",
     details: "One-year change analysis bracketing the April 2020 fires: NDVI and NBR differencing between June 2019 and June 2020 made the burn impact visible and comparable, separating the areas of greatest vegetation loss around the Red Forest from the parts of the Exclusion Zone that changed least. The original source imagery has since been lost, so the surviving deliverable is the full report.",
     gallery: [
-      { src: "assets/projects/chernobyl-wildfire/chernobyl-ndvi-change.png", caption: "NDVI Change - Chernobyl Exclusion Zone" },
-      { src: "assets/projects/chernobyl-wildfire/chernobyl-nbr-change.png", caption: "Normalized Burn Ratio Change - Chernobyl Exclusion Zone" }
+      { src: "assets/projects/chernobyl-wildfire/chernobyl_ndvi_change.png", caption: "NDVI Change - Chernobyl Exclusion Zone" },
+      { src: "assets/projects/chernobyl-wildfire/chernobyl_nbr_change.png", caption: "Normalized Burn Ratio Change - Chernobyl Exclusion Zone" }
     ]
   },
   {
